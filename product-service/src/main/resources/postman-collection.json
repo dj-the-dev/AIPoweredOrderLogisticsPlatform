@@ -1,0 +1,193 @@
+{
+  "info": {
+    "name": "Product Service API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:9013"
+    }
+  ],
+  "item": [
+    {
+      "name": "Vendor",
+      "item": [
+        {
+          "name": "Register Vendor",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/vendors",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"TechSupply Co.\",\n  \"description\": \"Leading supplier of electronic components and gadgets\",\n  \"email\": \"contact@techsupply.com\",\n  \"phone\": \"+1-800-555-0101\",\n  \"address\": \"123 Industrial Park, San Jose, CA 95101\",\n  \"website\": \"https://www.techsupply.com\",\n  \"logoUrl\": \"https://cdn.techsupply.com/logo.png\",\n  \"taxId\": \"US-TAX-987654321\",\n  \"status\": \"ACTIVE\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Vendor",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/vendors/1",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"TechSupply Co. (Updated)\",\n  \"description\": \"Premier supplier of electronic components, gadgets and IoT devices\",\n  \"email\": \"support@techsupply.com\",\n  \"phone\": \"+1-800-555-0199\",\n  \"address\": \"456 Innovation Drive, San Jose, CA 95110\",\n  \"website\": \"https://www.techsupply.com\",\n  \"logoUrl\": \"https://cdn.techsupply.com/logo-v2.png\",\n  \"taxId\": \"US-TAX-987654321\",\n  \"status\": \"ACTIVE\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Brand",
+      "item": [
+        {
+          "name": "Create Brand",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/brands",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Samsung\",\n  \"description\": \"Global leader in consumer electronics and semiconductors\",\n  \"logoUrl\": \"https://cdn.samsung.com/logo.png\",\n  \"website\": \"https://www.samsung.com\",\n  \"country\": \"South Korea\",\n  \"isActive\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Brand",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/brands/1",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Samsung Electronics\",\n  \"description\": \"World-leading innovator in consumer electronics, semiconductors and displays\",\n  \"logoUrl\": \"https://cdn.samsung.com/logo-updated.png\",\n  \"website\": \"https://www.samsung.com/global\",\n  \"country\": \"South Korea\",\n  \"isActive\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Brand by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/brands/1"
+          }
+        },
+        {
+          "name": "Get All Brands",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/brands"
+          }
+        },
+        {
+          "name": "Delete Brand",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/brands/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Category",
+      "item": [
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/categories",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Electronics\",\n  \"description\": \"All electronic devices including mobiles, laptops, accessories and smart home devices\",\n  \"isActive\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/categories/1",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Electronics & Gadgets\",\n  \"description\": \"Mobiles, laptops, smart home, wearables and all consumer electronics\",\n  \"isActive\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Category by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/categories/1"
+          }
+        },
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/categories"
+          }
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/categories/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "item": [
+        {
+          "name": "Add Product",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/products",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sku\": \"SAM-S24U-BLK-256\",\n  \"name\": \"Samsung Galaxy S24 Ultra 256GB Phantom Black\",\n  \"description\": \"The Samsung Galaxy S24 Ultra features a 6.8-inch Dynamic AMOLED display, Snapdragon 8 Gen 3 processor, 200MP quad camera system and built-in S Pen.\",\n  \"shortDescription\": \"Samsung Galaxy S24 Ultra with S Pen, 200MP camera, 256GB\",\n  \"price\": 1299.99,\n  \"compareAtPrice\": 1399.99,\n  \"costPrice\": 850.00,\n  \"weight\": 0.232,\n  \"weightUnit\": \"kg\",\n  \"status\": \"ACTIVE\",\n  \"metaTitle\": \"Buy Samsung Galaxy S24 Ultra 256GB Black Online\",\n  \"metaDescription\": \"Samsung Galaxy S24 Ultra 256GB Phantom Black - Best price with fast delivery\",\n  \"vendorId\": 1,\n  \"brandId\": 1,\n  \"categoryId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/products/1",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sku\": \"SAM-S24U-BLK-256\",\n  \"name\": \"Samsung Galaxy S24 Ultra 256GB Phantom Black\",\n  \"description\": \"Updated: The Samsung Galaxy S24 Ultra with One UI 6.1 update.\",\n  \"shortDescription\": \"Samsung Galaxy S24 Ultra with S Pen, 200MP camera, 256GB\",\n  \"price\": 1199.99,\n  \"compareAtPrice\": 1299.99,\n  \"costPrice\": 850.00,\n  \"weight\": 0.232,\n  \"weightUnit\": \"kg\",\n  \"status\": \"ACTIVE\",\n  \"metaTitle\": \"Buy Samsung Galaxy S24 Ultra 256GB Black Online\",\n  \"metaDescription\": \"Samsung Galaxy S24 Ultra 256GB Phantom Black - Best price with fast delivery\",\n  \"vendorId\": 1,\n  \"brandId\": 1,\n  \"categoryId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Product by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products/1"
+          }
+        },
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products"
+          }
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/products/1"
+          }
+        }
+      ]
+    }
+  ]
+}
