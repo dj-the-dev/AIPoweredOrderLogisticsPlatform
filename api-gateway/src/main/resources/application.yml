@@ -1,6 +1,9 @@
 spring:
   application:
-  name: api-gateway
+   name: api-gateway
+
+server:
+  port: 8762
 
 #api
   cloud:
@@ -10,3 +13,7 @@ spring:
           uri: lb://ORDER-SERVICE
           predicates:
            - path
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
