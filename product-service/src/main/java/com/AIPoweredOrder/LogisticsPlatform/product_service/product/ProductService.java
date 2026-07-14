@@ -6,7 +6,10 @@ import com.AIPoweredOrder.LogisticsPlatform.product_service.category.Category;
 import com.AIPoweredOrder.LogisticsPlatform.product_service.category.CategoryRepository;
 import com.AIPoweredOrder.LogisticsPlatform.product_service.vendor.Vendor;
 import com.AIPoweredOrder.LogisticsPlatform.product_service.vendor.VendorRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.mapper.Mapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +23,7 @@ public class ProductService {
     private final VendorRepository vendorRepository;
     private final BrandRepository brandRepository;
     private final CategoryRepository categoryRepository;
+    private final ProductMapper productMapper;
 
     @Transactional
     public Product addProduct(ProductRequest request) {
@@ -91,9 +95,13 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Product getProductById(Long id) {
-        return productRepository.findById(id)
+    @Cacheable(value = "products", key = "#id")
+    public ProductResponseDto getProductById(Long id) {
+        Product product= productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+
+        return productMapper.toResponse(product);
+
     }
 
     @Transactional(readOnly = true)
