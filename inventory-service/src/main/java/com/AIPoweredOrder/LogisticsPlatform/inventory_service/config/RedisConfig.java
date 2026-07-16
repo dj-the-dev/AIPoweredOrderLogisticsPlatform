@@ -1,4 +1,4 @@
-package com.AIPoweredOrder.LogisticsPlatform.product_service.config;
+package com.AIPoweredOrder.LogisticsPlatform.inventory_service.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.CacheManager;
@@ -27,8 +27,10 @@ public class RedisConfig implements CachingConfigurer {
     @Override
     @Bean
     public CacheManager cacheManager() {
+        // Stock levels are volatile; keep the safety-net TTL short since the service already
+        // evicts explicitly on every mutation (restock/reserve/release/deduct/adjust).
         Map<String, RedisCacheConfiguration> perCacheConfig = Map.of(
-                CacheNames.PRODUCTS, baseConfig().entryTtl(Duration.ofMinutes(30))
+                CacheNames.INVENTORY_ITEMS, baseConfig().entryTtl(Duration.ofMinutes(2))
         );
 
         return RedisCacheManager.builder(redisConnectionFactory)
@@ -44,7 +46,7 @@ public class RedisConfig implements CachingConfigurer {
     private RedisCacheConfiguration baseConfig() {
         return RedisCacheConfiguration.defaultCacheConfig()
                 .disableCachingNullValues()
-                .computePrefixWith(cacheName -> "product-service::" + cacheName + "::")
+                .computePrefixWith(cacheName -> "inventory-service::" + cacheName + "::")
                 .serializeKeysWith(
                         RedisSerializationContext.SerializationPair.fromSerializer(
                                 new StringRedisSerializer()))

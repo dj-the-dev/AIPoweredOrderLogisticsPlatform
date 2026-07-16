@@ -1,0 +1,8 @@
+pull redis image
+#redis
+spring.data.redis.host=localhost
+spring.data.redis.port=6739
+
+in main add @EnableCaching
+
+add serializer and deserializer
