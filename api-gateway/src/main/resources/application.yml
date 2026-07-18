@@ -12,6 +12,18 @@ spring:
           uri: lb://CART-SERVICE
           predicates:
             - Path=/api/carts/**
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/users/**
+        - id: inventory-service
+          uri: lb://INVENTORY-SERVICE
+          predicates:
+            - Path=/api/inventory/**
+        - id: warehouse-service
+          uri: lb://INVENTORY-SERVICE
+          predicates:
+            - Path=/api/warehouses/**
 
 server:
   port: 8762
