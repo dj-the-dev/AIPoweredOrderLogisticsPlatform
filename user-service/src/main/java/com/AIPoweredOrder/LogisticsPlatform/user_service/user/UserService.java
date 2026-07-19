@@ -2,23 +2,21 @@ package com.AIPoweredOrder.LogisticsPlatform.user_service.user;
 
 import com.AIPoweredOrder.LogisticsPlatform.user_service.config.CacheNames;
 import com.AIPoweredOrder.LogisticsPlatform.user_service.exception.EmailAlreadyExistsException;
-import com.AIPoweredOrder.LogisticsPlatform.user_service.exception.InvalidCredentialsException;
 import com.AIPoweredOrder.LogisticsPlatform.user_service.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public UserResponse createUser(UserRequest request) {
@@ -27,10 +25,10 @@ public class UserService {
         }
 
         User user = User.builder()
+                .id(request.id())
                 .firstName(request.firstName())
                 .lastName(request.lastName())
                 .email(request.email())
-                .password(passwordEncoder.encode(request.password()))
                 .phone(request.phone())
                 .build();
 
@@ -38,14 +36,14 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public User getUserEntity(Long id) {
+    public User getUserEntity(UUID id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
     }
 
     @Transactional(readOnly = true)
     @Cacheable(value = CacheNames.USERS, key = "#id")
-    public UserResponse getUser(Long id) {
+    public UserResponse getUser(UUID id) {
         return toResponse(getUserEntity(id));
     }
 
@@ -63,7 +61,7 @@ public class UserService {
 
     @Transactional
     @CacheEvict(value = CacheNames.USERS, key = "#id")
-    public UserResponse updateUser(Long id, UserUpdateRequest request) {
+    public UserResponse updateUser(UUID id, UserUpdateRequest request) {
         User user = getUserEntity(id);
         user.setFirstName(request.firstName());
         user.setLastName(request.lastName());
@@ -73,18 +71,7 @@ public class UserService {
 
     @Transactional
     @CacheEvict(value = CacheNames.USERS, key = "#id")
-    public void changePassword(Long id, ChangePasswordRequest request) {
-        User user = getUserEntity(id);
-        if (!passwordEncoder.matches(request.oldPassword(), user.getPassword())) {
-            throw new InvalidCredentialsException("Current password is incorrect");
-        }
-        user.setPassword(passwordEncoder.encode(request.newPassword()));
-        userRepository.save(user);
-    }
-
-    @Transactional
-    @CacheEvict(value = CacheNames.USERS, key = "#id")
-    public void deleteUser(Long id) {
+    public void deleteUser(UUID id) {
         if (!userRepository.existsById(id)) {
             throw new ResourceNotFoundException("User not found with id: " + id);
         }
@@ -98,7 +85,6 @@ public class UserService {
         response.setLastName(user.getLastName());
         response.setEmail(user.getEmail());
         response.setPhone(user.getPhone());
-        response.setRole(user.getRole());
         response.setStatus(user.getStatus());
         response.setCreatedAt(user.getCreatedAt());
         response.setUpdatedAt(user.getUpdatedAt());

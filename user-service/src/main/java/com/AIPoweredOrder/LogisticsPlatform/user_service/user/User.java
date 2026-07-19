@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
@@ -18,9 +19,12 @@ import java.time.LocalDateTime;
 @Builder
 public class User {
 
+    /**
+     * Same value as the Account id in auth-service — assigned by the caller
+     * (auth-service), not generated here, since auth-service owns identity.
+     */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     @Column(name = "first_name", nullable = false, length = 100)
     private String firstName;
@@ -31,16 +35,8 @@ public class User {
     @Column(nullable = false, length = 255)
     private String email;
 
-    @Column(nullable = false)
-    private String password;
-
     @Column(length = 20)
     private String phone;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    @Builder.Default
-    private Role role = Role.CUSTOMER;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
@@ -54,10 +50,6 @@ public class User {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    public enum Role {
-        CUSTOMER, ADMIN
-    }
 
     public enum UserStatus {
         ACTIVE, INACTIVE, SUSPENDED
